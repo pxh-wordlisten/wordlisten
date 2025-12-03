@@ -1,7 +1,4 @@
-# Buildozer cache
 .buildozer/
 *.bak
 __pycache__/
 *.pyc
-.env
-*.log
