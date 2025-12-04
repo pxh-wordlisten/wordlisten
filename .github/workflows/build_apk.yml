@@ -25,7 +25,8 @@ jobs:
       - name: Build APK
         run: |
           cd ${{ github.workspace }}
-          buildozer android debug --verbose
+          # 自动接受 Android SDK 许可证
+          buildozer android debug --verbose --sdk-tools-license-key=accept
           mkdir -p dist
           cp bin/*.apk dist/ 2>/dev/null || echo "No APK found"
 
