@@ -26,7 +26,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           # 自动接受 Android SDK 许可证
-          buildozer android debug --verbose --sdk-tools-license-key=accept
+          echo "y" | buildozer android debug --verbose
           mkdir -p dist
           cp bin/*.apk dist/ 2>/dev/null || echo "No APK found"
 
@@ -35,3 +35,4 @@ jobs:
         with:
           name: wordlisten-apk
           path: dist/*.apk
+
