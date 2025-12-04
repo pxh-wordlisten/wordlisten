@@ -1,4 +1,4 @@
-
+name: Build APK
 
 on:
   push:
@@ -20,20 +20,12 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y git zip unzip openjdk-17-jdk python3-pip cython
-          pip3 install buildozername: Install buildozer and dependencies
-        run: |
-        sudo apt update
-    sudo apt install -y git zip unzip openjdk-17-jdk python3-pip cython
-    pip3 install buildozername: Install buildozer and dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip
           pip3 install buildozer
 
       - name: Build APK
         run: |
           cd ${{ github.workspace }}
-          buildozer android debug
+          buildozer android debug --verbose
           mkdir -p dist
           cp bin/*.apk dist/ 2>/dev/null || echo "No APK found"
 
