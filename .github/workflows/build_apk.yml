@@ -23,7 +23,7 @@ jobs:
           # 升级 libtool 到最新版（关键！）
           sudo apt install -y libtool automake autoconf autoconf-archive
           # 手动下载并安装最新 libtool（如果 apt 版本太老）
-          wget https://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.gz
+          wget https://mirrors.tuna.tsinghua.edu.cn/gnu/libtool/libtool-2.4.6.tar.gz
           tar -xzf libtool-2.4.6.tar.gz
           cd libtool-2.4.6
           ./configure --prefix=/usr/local
