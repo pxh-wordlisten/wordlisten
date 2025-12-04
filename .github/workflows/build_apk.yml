@@ -20,8 +20,16 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y git zip unzip openjdk-17-jdk python3-pip cython3
-          # 升级 autoconf 到最新版
-          sudo apt install -y autoconf-archive autoconf automake libtool
+          # 升级 libtool 到最新版（关键！）
+          sudo apt install -y libtool automake autoconf autoconf-archive
+          # 手动下载并安装最新 libtool（如果 apt 版本太老）
+          wget https://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.gz
+          tar -xzf libtool-2.4.6.tar.gz
+          cd libtool-2.4.6
+          ./configure --prefix=/usr/local
+          make && sudo make install
+          cd ..
+          rm -rf libtool-2.4.6 libtool-2.4.6.tar.gz
           pip3 install buildozer
 
       - name: Build APK
