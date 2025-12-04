@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APK with Official Docker Image
 
 on:
   push:
@@ -11,38 +11,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-
-      - name: Install buildozer and dependencies
+      - name: Build APK using Kivy's official buildozer Docker image
         run: |
-          sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip cython3
-          # 升级 libtool 到最新版（关键！）
-          sudo apt install -y libtool automake autoconf autoconf-archive
-          # 手动下载并安装最新 libtool（如果 apt 版本太老）
-          wget https://mirrors.tuna.tsinghua.edu.cn/gnu/libtool/libtool-2.4.6.tar.gz
-          tar -xzf libtool-2.4.6.tar.gz
-          cd libtool-2.4.6
-          ./configure --prefix=/usr/local
-          make && sudo make install
-          cd ..
-          rm -rf libtool-2.4.6 libtool-2.4.6.tar.gz
-          pip3 install buildozer
-
-      - name: Build APK
-        run: |
-          cd ${{ github.workspace }}
-          # 自动接受 Android SDK 许可证
-          echo "y" | buildozer android debug --verbose
-          mkdir -p dist
-          cp bin/*.apk dist/ 2>/dev/null || echo "No APK found"
+          docker run --rm \
+            -v "${{ github.workspace }}:/home/user/hostcwd" \
+            -w /home/user/hostcwd \
+            kivy/buildozer \
+            bash -c "buildozer android debug"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: wordlisten-apk
-          path: dist/*.apk
-
+          path: bin/*.apk
