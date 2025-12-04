@@ -14,7 +14,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.11'
+          python-version: '3.10'
 
       - name: Install buildozer and dependencies
         run: |
@@ -24,12 +24,13 @@ jobs:
 
       - name: Build APK
         run: |
+          cd ${{ github.workspace }}
           buildozer android debug
           mkdir -p dist
           cp bin/*.apk dist/ 2>/dev/null || echo "No APK found"
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wordlisten-apk
           path: dist/*.apk
